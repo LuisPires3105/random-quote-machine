@@ -2,7 +2,7 @@
 import './App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTwitter } from '@fortawesome/free-brands-svg-icons'
-import React from 'react';
+import {useState} from 'react';
 
 
 
@@ -23,46 +23,29 @@ const initialState = [{quote: 'Quote1',author: 'Author1'},
 
 const aNumber = Math.floor(Math.random()*initialState.length);
 
-class Quotes extends React.Component{
-  
-  constructor(props){
-    super(props);
-    this.state = {
-      quotes: initialState,
-      currentQuote: initialState[aNumber]['quote'],
-      currentAuthor: initialState[aNumber]['author'],
-    }
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  handleClick() {
-    this.setState(()=>{
-      let randomNumber = Math.floor(Math.random()*this.state.quotes.length);
-      return {quotes: initialState,
-        currentQuote: this.state.quotes[randomNumber]['quote'],
-        currentAuthor: this.state.quotes[randomNumber]['author'],
-      }
-    });
-  }
-
-  render(){
-    return <div id="quote-box">
-      <p id="text">selQuote: {this.state.currentQuote}</p>
-      <p id="author">selAuthor: {this.state.currentAuthor}</p>
-      <button id="new-quote" onClick={this.handleClick}>New quote</button>
-      <a id="tweet-quote" href="https://twitter.com/intent/tweet" target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faTwitter} /></a>    
-    </div>
-  }
-}
-
-
-
 function App() {
+
+  const [quote, setQuote] = useState(initialState[aNumber]['quote']);
+  const [author, setAuthor] = useState(initialState[aNumber]['author']);
+
+  function handleClick() {
+
+    let randomNumber = Math.floor(Math.random()*initialState.length);
+    setQuote(initialState[randomNumber]['quote']);
+    setAuthor(initialState[randomNumber]['author']);
+
+  }
+
   return (
     <div className="App">
       <header className="App-header">
         <div>
-          <Quotes />
+          <div id="quote-box">
+            <p id="text">selQuote: {quote}</p>
+            <p id="author">selAuthor: {author}</p>
+            <button id="new-quote" onClick={handleClick}>New quote</button>
+            <a id="tweet-quote" href="https://twitter.com/intent/tweet" target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faTwitter} /></a>    
+          </div>
         </div>
       </header>
     </div>
